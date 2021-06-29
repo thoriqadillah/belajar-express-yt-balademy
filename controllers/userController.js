@@ -18,21 +18,7 @@ let users = [
 
 module.exports = {
   getUser: (req, res) => {
-    //jika datanya tidak kosong
-    if (users.length > 0) {
-      res
-        .json({
-          status: "success",
-          data: users,
-        })
-        .status(200); //mengirimkan/menampilkan data berupa json
-    } else {
-      res
-        .json({
-          message: "Data masih kosong",
-        })
-        .status(404);
-    }
+    res.render('user/users', {users}); //jika nama key dan value nya sama, maka bisa menggunakan destructuring seperti itu
   },
   addUser: (req, res) => {
     users.push(req.body);
