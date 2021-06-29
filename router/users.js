@@ -5,25 +5,13 @@ const router = express();
 
 const userController = require("../controllers/userController");
 
-// app.get("/users", (req, res) => {
-//   res.send("Get User");
-// });
-
-// app.post("/users", (req, res) => {
-//   res.send("Post User");
-// });
-
-// app.put("/users", (req, res) => {
-//   res.send("Put User");
-// });
-
-//mungkin akan kelamaan jika misal sama2 mengakses /users tapi beda method harus menuliskan hal yang sama
-//maka dari itu kita bisa menggunakan route group
-
-router
-  .route("/users") //route group
+router.route('/users')
   .get(userController.getUser)
-  .post(userController.addUser);
+  .post(userController.store);
+
+router.get("/addUser", userController.addUser);
+
+router.get("/users/:id", userController.getUserDetail);
 
 //update user dengan parameter, biasanya id, tapi bisa saja yang lainnya
 router.put("/users/:id", userController.editUser);

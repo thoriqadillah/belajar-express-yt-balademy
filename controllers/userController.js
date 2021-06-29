@@ -12,70 +12,60 @@ let users = [
     email: "masawim@gmail.com",
   },
 ];
-
-//======INGAT!!========
-//API DI BAWAH INI TANPA ADANYA PENGKONDISIAN TERTENTU, JADI SEGALA CARA UNTUK CRUD API DAPAT DIJALANKAN
-
+let id = 2;
 module.exports = {
   getUser: (req, res) => {
-    res.render('user/users', {users}); //jika nama key dan value nya sama, maka bisa menggunakan destructuring seperti itu
+    const data = {
+      users, //jika nama key dan value nya sama, maka bisa menggunakan destructuring seperti itu, aslinya users: users
+      title: 'Users'
+    };
+
+    res.render('user/users', data); 
   },
+
+  getUserDetail: (req, res) => {
+    const { id } = req.params;
+
+    const user = users.filter(user => user.id == id);
+    const data = {
+      users: user, 
+      title: 'User Detail'
+    };
+
+    res.render('user/detail', data); 
+  },
+
   addUser: (req, res) => {
-    users.push(req.body);
-    res
-      .json({
-        status: "success",
-        message: "Data user berhasil disimpan",
-        method: res.method,
-        url: res.url,
-        data: users,
-      })
-      .status(201);
+    const data = {
+      title: 'Add User'
+    };
+
+    res.render('user/addUser', data);
   },
+
+  store: (req, res) => {
+    //cara menangkap input dari form adalah dengan menggunakan req.body
+    // hasilnya akan menjadi object dengan key adalah name attribute dari input form nya dan value nya adalah isian dari user
+    users.push({
+      id: ++id,
+      name: req.body.name,
+      email: req.body.email
+    });
+
+    res.redirect('/users');
+  },
+
   editUser: (req, res) => {
-    //req.param berguna untuk menangkap route parameternya
+    const data = {
+      title: 'Edit User'
+    };
 
-    //bisa update dengan cara ini
-    // const userId = req.params.id;
-    // users.filter((user) => {
-    //   if (user.id == userId) {
-    //     user.id = userId;
-    //     user.name = req.body.name;
-    //     user.email = req.body.email;
-    //   }
-    // });
-
-    //atau bisa update dengan lebih simple dan clean
-    //deconstruct dan ambil req.body
-    const { id, name, email } = req.body;
-
-    const index = users.findIndex((user) => user.id == id); //cari index dari aray users yang sama dengan id yang di deconstruct
-    users[index] = { id, name, email }; //update data berdasarkan data yang di deconstruct tadi pada users[index]
-
-    //contoh http://localhost:3000/users/34
-    //hasilnya menjadi req.params : { "id": 34, "name": namaDariArrayUsers, "email": emailDariArrayUsers}
-    //atau bisa langsung dispesifikkan, yaitu req.params.userId, yang mana akan mengembalikan 34
-
-    res
-      .json({
-        status: "success",
-        message: "Data berhasil diperbarui",
-        data: users,
-      })
-      .status(200);
   },
+
   deleteUser: (req, res) => {
-    const { id } = req.body;
+    const data = {
+      title: 'Users'
+    };
 
-    //update/ganti array users yang id != userId, sehingga seolah2 kita menghapus data tersebut
-    users = users.filter((user) => user.id != id);
-
-    res
-      .json({
-        status: "success",
-        message: "Data berhasil dihapus",
-        data: users,
-      })
-      .status(200);
   },
 };
