@@ -6,6 +6,9 @@ const port = 3000;
 app.use(express.json()); // untuk parsing data berbasis application/json
 app.use(express.urlencoded({ extended: true })); // untuk parsing data berbasis form atau application/x-www-form-urlencoded
 
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/belajar', { useNewUrlParser: true, useUnifiedTopology: true }); //emnghubungkan ke mongodb dengan db belajar
+
 const something = {
   a: "Thoriq",
   b: "Mas Awim",
