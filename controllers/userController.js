@@ -16,13 +16,17 @@ module.exports = {
   },
 
   getUserDetail: (req, res) => {
-    const { id } = req.params;
+    const { id }  = req.params;
 
-    const data = {
-      title: 'User Detail'
-    };
-
-    res.render('user/detail', data); 
+    User.findById(id, (error, user) => { //parameter kedua adalah hasil datanya
+      if (error) console.log(error);
+      
+      const data = {
+        user, //sama saja dengan users: users, dimana value nya adalah callback (parameter kedua) dari find()
+        title: "User"
+      }
+      res.render('user/detail', data);
+    });
   },
 
   addUser: (req, res) => {

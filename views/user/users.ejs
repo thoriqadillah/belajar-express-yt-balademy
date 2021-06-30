@@ -6,7 +6,7 @@
     <% users.forEach(user => { %> 
         <ul>
         <!-- users adalah data yang dikirim dari controller -->
-            <li> <a href="/users/<%= user.id %>"><%= user.name %> </a></li>
+            <li> <a href="/users/<%= user._id %>"><%= user.name %> </a></li>
         </ul>
     <% }) %>
     
